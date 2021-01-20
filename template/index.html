@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo</title>
+    <style>
+      .add{
+       position: fixed;
+       top: 100%;
+       transform: translate(-100%,-100%);
+       width: 50px;
+       height: 50px;
+       border-radius: 100%;
+       background-color:lightgreen;
+       float: right;
+      }
+        .task{
+            width: 100%;
+            background-color: white;
+            height: 60px;
+            box-shadow: 6px 4px 8px 6px grey;
+            margin-top: 20px;
+            transition: 0.2s ease-in-out;
+            padding: 18px;
+            box-sizing: border-box;
+            border-radius: 30px;
+            float: left;
+            vertical-align: middle;
+
+        }
+        .detail{
+          width: 90%;
+          margin-left: 50px;
+          vertical-align: middle;
+          margin-top: -30px;
+          padding-top: 20px;
+          box-sizing: border-box;
+          
+        }
+        .task:hover{
+            width: 95%;
+        }
+        .container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-left: 10px;
+}
+
+/* Hide the browser's default checkbox */
+
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color:#c3c1c4;
+  border-radius:7px;
+
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.button{
+  width: 24px;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  background: none;
+  height: 24px;
+  cursor: pointer;
+}
+span{
+  margin: 0px;
+  position: relative;
+  top: -15px;
+}
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+    </style>
+</head>
+<body>
+  <a href="/loguot">
+    <button style="position:absolute; z-index:10; right: 10px;">LOGUO</button>
+</a>
+<div class="container">
+  <form action="/add" method="POST">
+  <div class="row">
+    <div class="col-25">
+      <label for="fname">Your Task</label>
+    </div>
+    <div class="col-75">
+      <input type="text" id="fname" name="task" placeholder="Your task..">
+    </div>
+  </div>
+  {% for item in data2%}
+  <div class="row">
+    <div class="col-25">
+      <label for="fname">Your password</label>
+    </div>
+    <div class="col-75">
+      <input type="text" id="fname" name="psw" value={{item}} placeholder="Your password..">
+    </div>
+  </div>
+{%endfor%}
+    </div>
+  </div>
+  <div class="row">
+    <input type="submit" value="Submit">
+  </div>
+  </form>
+</div>
+
+{% for item in data %}
+<div class="task">
+
+    <form action="/save" method="POST">
+    <input class="check" name="check" style="display: none;" value={{item[2]}}>
+    <input class="name" style="display: none;" name="task" value="{{item[1]}}"">
+    <button class="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke=" #2dcaa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg" style="display: none;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>    
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke=" #2dcaa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"style="display:none" class="svg2"><circle cx="12" cy="12" r="10"></circle></svg>
+  </button>
+  <div class="detail">
+    <span>{{item[1]}}</span>
+  </div>
+  </div>
+
+</form>
+
+{%endfor%}
+<script>
+  let btns=document.querySelectorAll("button");
+  let check = document.querySelectorAll(".check");
+  let Name = document.querySelectorAll(".name");
+  let span =document.querySelectorAll("span");
+  let img = document.querySelectorAll(".svg");
+  let img2 = document.querySelectorAll(".svg2");
+  for(let x=0; x<img.length; x++){
+    if(check[x].value=="true"){
+      img[x].style.display="block";
+    }
+    else{
+      img2[x].style.display="block";
+    }
+  }
+
+</script>
+</body>
+</html>
